@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tabla de Administracion</title>
+    <link rel="stylesheet" href="dist/css/all.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+
+
+  <script src="dist/js/all.js"></script>
+  </head>
+  <body>
+    <main class="column-10">
+      <table id="example" class="display" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Usuari</th>
+                    <th>Nom</th>
+                    <th>Cognom</th>
+                    <th>H. Entrada</th>
+                    <th>H. Sortida</th>
+                    <th>Tipus</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                  <th>Usuari</th>
+                  <th>Nom</th>
+                  <th>Cognom</th>
+                  <th>H. Entrada</th>
+                  <th>H. Sortida</th>
+                  <th>Tipus</th>
+                </tr>
+            </tfoot>
+            <tbody>
+            </tbody>
+          </table>
+    </main>
+    <aside id="fixed-left" class="column-2">Hola</aside>
+    <script>
+      $(document).ready(function() {
+          // Setup - add a text input to each footer cell
+          $('#example tfoot th').each( function () {
+              var title = $(this).text();
+              $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+          } );
+
+          // DataTable
+          var table = $('#example').DataTable(
+            {
+              "language": {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+              },
+              dom: 'Bfrtip',
+              buttons: [
+                  {
+                    extend: 'excelHtml5',
+                    title: 'toExcel'
+                  },
+                  {
+                    extend: 'pdfHtml5',
+                    title: 'toPDF'
+                  }
+              ],
+              stateSave: false
+            });
+
+          // Apply the search
+          table.columns().every( function () {
+              var that = this;
+
+              $( 'input', this.footer() ).on( 'keyup change', function () {
+                  if ( that.search() !== this.value ) {
+                      that
+                          .search( this.value )
+                          .draw();
+                  }
+              } );
+          });
+          function addToTable(resp){
+            console.log(resp);
+            alert(resp.lenth);
+            for(var i = 0; i < resp.length; i++){
+              for(var o = 0; o < resp[i].fitxatges.length;o++){
+                alert(resp[i].nom);
+                $("tbody").html($("tbody").html()+
+                                    "<tr>"+
+                                    "<td>"+resp[i].nom+"</td>"+
+                                    "<td>"+resp[i].nom+"</td>"+
+                                    "<td>"+resp[i].cognom+"</td>"+
+                                    "<td>"+resp[i].fitxatges[o].hora+"</td>"+
+                                    "<td>"+resp[i].fitxatges[o].tipus+"</td>"+
+                                    "</tr>"
+                                  );
+              }
+            }
+          }
+
+          function ajaxRequest(){
+            $.ajax({
+              url: "http://localhost:8080",
+              type: "GET",
+              complete: function(resposta){
+                addToTable(JSON.parse(resposta.responseText));
+              }
+            })
+          }
+          ajaxRequest();
+        });
+    </script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+//5 Colors
+$success: #2ECC71;
+$warning:#F39C12;
+$danger: #E74C3C;
+$primary:#3498DB;
+$default: #9B59B6;
+
+//Darker Colors
+$drk_success: darken($success, 25%);
+$drk_warning: darken($warning, 25%);
+$dark_danger: darken($danger, 25%);
+$dark_primary: darken($primary, 25%);
+$dark_default: darken($default, 25%);
+
+//Lighter colors
+$lgh_success: ligten($success, 25%);
+$lgh_warning: lighten($warning, 25%);
+$lgh_danger: lighten($danger, 25%);
+$lgh_primary: lighten($primary, 25%);
+$lgh_default: lighten($default, 25%);
+
+
+.default{
+  color: $default;
+}
+.warning{
+  color: $warning;
+}
+.danger{
+  color: $danger;
+}
+.primary{
+  color: $primary;
+}
+.success{
+  color: $success;
+}
+
+
+.bgdefault{
+  background-color: $default;
+}
+
+.bgwarning{
+  background-color: $warning;
+}
+.bgdanger{
+  background-color: $danger;
+}
+.bgprimary{
+  background-color: $primary;
+}
+.bgsuccess{
+  background-color: $success;
+}
+.btn{
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+}
+
+.btn:hover {
+  background-color: $lgh_success;
+}

@@ -1,0 +1,96 @@
+.default {
+  color: #9B59B6; }
+
+.warning {
+  color: #F39C12; }
+
+.danger {
+  color: #E74C3C; }
+
+.primary {
+  color: #3498DB; }
+
+.success {
+  color: #2ECC71; }
+
+.bgdefault {
+  background-color: #9B59B6; }
+
+.bgwarning {
+  background-color: #F39C12; }
+
+.bgdanger {
+  background-color: #E74C3C; }
+
+.bgprimary {
+  background-color: #3498DB; }
+
+.bgsuccess {
+  background-color: #2ECC71; }
+
+.btn {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px; }
+
+.btn:hover {
+  background-color: ligten(#2ECC71, 25%); }
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+main {
+  float: right; }
+
+header {
+  background-color: red; }
+
+aside {
+  float: left;
+  background: gray; }
+
+.column-1 {
+  width: 8.33333%; }
+
+.column-2 {
+  width: 16.66667%; }
+
+.column-3 {
+  width: 25%; }
+
+.column-4 {
+  width: 33.33333%; }
+
+.column-5 {
+  width: 41.66667%; }
+
+.column-6 {
+  width: 50%; }
+
+.column-7 {
+  width: 58.33333%; }
+
+.column-8 {
+  width: 66.66667%; }
+
+.column-9 {
+  width: 75%; }
+
+.column-10 {
+  width: 83.33333%; }
+
+.column-11 {
+  width: 91.66667%; }
+
+.column-12 {
+  width: 100%; }

@@ -1,0 +1,22 @@
+*{
+  padding: 0;
+  margin:0;
+  box-sizing: border-box;
+}
+main{
+  float: right;
+
+}
+header{
+  background-color: red;
+}
+aside{
+  float: left;
+  background: gray;
+}
+
+@for $i from 1 through 12 {
+    .column-#{$i} {
+        width: 100% / 12 * $i;
+    }
+}
