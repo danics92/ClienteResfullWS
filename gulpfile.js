@@ -18,11 +18,11 @@ gulp.task('concat-css', ['sass'], function(){
 				'lib/datatables/datatables.min.css',
 				'lib/fullcalendar/fullcalendar.css',
 				'lib/select2/dist/css/select2.css',
+				'lib/bootstrap/css/bootstrap-theme.css',
+				'lib/bootstrap/css/bootstrap.min.css',
 				'dist/css/layout.css',
 				'dist/css/main.css',
-				'dist/css/login-style.css',
-				'lib/bootstrap/css/bootstrap-theme.css',
-				'lib/bootstrap/css/bootstrap.min.css'
+				'dist/css/login-style.css'
 			])
     	.pipe(concat('all.css'))
     	.pipe(gulp.dest('./dist/css'));

@@ -11,8 +11,10 @@
   <script src="dist/js/all.js"></script>
   </head>
   <body>
-    <main class="column-10">
-      <table id="example" class="display" cellspacing="0">
+    <div class="row">
+    <aside id="fixed-left" class="col-lg-2">Hola</aside>
+    <main class="col-lg-10">
+      <table id="example" class="display dt-responsive">
             <thead>
                 <tr>
                     <th>Usuari</th>
@@ -35,9 +37,9 @@
             </tfoot>
             <tbody>
             </tbody>
-          </table>
+        </table>
     </main>
-    <aside id="fixed-left" class="column-2">Hola</aside>
+</div>
     <script>
       $(document).ready(function() {
           // Setup - add a text input to each footer cell
@@ -45,6 +47,8 @@
               var title = $(this).text();
               $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
           } );
+
+          var json = null;
 
           // DataTable
           var table = $('#example').DataTable(
@@ -99,22 +103,26 @@
                   }
               } );
           });
-          function addToTable(resp){
-            console.log(resp);
-            alert(resp.lenth);
-            for(var i = 0; i < resp.length; i++){
-              for(var o = 0; o < resp[i].fitxatges.length;o++){
-                alert(resp[i].nom);
-                $("tbody").html($("tbody").html()+
-                                    "<tr>"+
-                                    "<td>"+resp[i].nom+"</td>"+
-                                    "<td>"+resp[i].nom+"</td>"+
-                                    "<td>"+resp[i].cognom+"</td>"+
-                                    "<td>"+resp[i].fitxatges[o].hora+"</td>"+
-                                    "<td>"+resp[i].fitxatges[o].tipus+"</td>"+
-                                    "</tr>"
-                                  );
+          function addToTable(){
+            if(json != null){
+              $("tbody").html("");
+              for(var i = 0; i < json.length; i++){
+                for(var o = 0; o < json[i].fitxatges.length;o++){
+                  $("tbody").html($("tbody").html()+
+                                      "<tr>"+
+                                      "<td>"+json[i].nom+"</td>"+
+                                      "<td>"+json[i].nom+"</td>"+
+                                      "<td>"+json[i].cognom+"</td>"+
+                                      "<td>"+json[i].fitxatges[o].hora+"</td>"+
+                                      "<td>"+json[i].fitxatges[o].tipus+"</td>"+
+                                      "</tr>"
+                                    );
+                }
               }
+            }else{
+              setTimeout(function(){
+                addToTable();
+              },1000);
             }
           }
 
@@ -123,7 +131,8 @@
               url: "http://localhost:8080",
               type: "GET",
               complete: function(resposta){
-                addToTable(JSON.parse(resposta.responseText));
+                json = JSON.parse(resposta.responseText);
+                addToTable();
               }
             })
           }
@@ -132,11 +141,11 @@
     </script>
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
   </body>
 </html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="dist/css/all.css" media="screen" title="no title" charset="utf-8">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.2.5/css/tableexport.min.css"></link>
+  </head>
+  <body>
+    <main class="column-10">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="dateFrom">From</label>
+          <input class="form-control" id="dateFrom">
+        </div>
+        <div class="form-group">
+          <label for="dateTo">To</label>
+          <input class="form-control" id="dateTo">
+        </div>
+        <div class="form-group">
+          <label for="dateTo">professors</label>
+          <select id="professors" multiple="multiple"><option value=""></option></select>
+        </div>
+        <button type="submit" class="btn btn-default">Consulta</button>
+      </form>
+
+      <table id="table" class="table" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Usuari</th>
+                    <th>Nom</th>
+                    <th>Cognom</th>
+                    <th>Dia/Hora</th>
+                    <th>Tipus</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <td>Usuari</td>
+                  <td>Nom</td>
+                  <td>Cognom</td>
+                  <td>Dia/Hora</td>
+                  <td>Tipus</td>
+              </tr>
+            </tbody>
+          </table>
+      </main>
+      <aside id="fixed-left" class="column-2">Hola</aside>
+    <script src="dist/js/all.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+           var json = null;
+           var dtFrom = $("#dateFrom").datepicker({
+             dateFormat: 'yy-dd-mm',
+             changeYear: true,
+             onSelect: function(dateText){
+               if(dateText > dtTo.val()){
+                 dtTo.datepicker("setDate",dateText);
+               }
+               cercaPerDates(dateText, dtTo.val());
+             }
+           });
+           var dtTo = $("#dateTo").datepicker({
+             dateFormat: 'yy-dd-mm',
+             changeYear: true,
+             onSelect: function(dateText){
+               if(dateText < dtFrom.val()){
+                 dtFrom.datepicker("setDate",dateText);
+               }
+               cercaPerDates(dateText, dtFrom.val());
+             }
+           });
+           $.ajax({
+             url: "http://localhost:8080",
+             type: "GET",
+             complete: function(resposta){
+               json = JSON.parse(resposta.responseText);
+               addToSelect();
+               addToTable();
+             }
+           })
+
+           function cercaPerDates(from, to){
+             $("#dateResult").html("");
+             //Date From procesament
+             fromSplit = from.split("-");
+             var fromYear = fromSplit[0];
+             var fromDay = fromSplit[1];
+             var fromMonth = fromSplit[2];
+             //Date to process
+             toSplit = to.split("-");
+             var toYear = toSplit[0];
+             var toDay = toSplit[1];
+             var toMonth = toSplit[2];
+             //Create Dates
+             var dateIni = new Date(fromYear,fromDay,fromMonth,0,0,0,0);
+             var dateFi = new Date(toYear,toDay,toMonth,0,0,0,0);
+             for (var i = 0; i < json.length; i++) {
+               if(json != null){
+                 //Get info from JSON
+                 var department = json[i].departament;
+                 var descripcion = json[i].descripcio;
+                 var dAlta = json[i].data_alta;
+                 dAltaSplit = to.split("-");
+                 var dAltaYear = dAltaSplit[0];
+                 var dAltaDay = dAltaSplit[1];
+                 var dAltaMonth = dAltaSplit[2];
+                 var dateAlta = new Date(dAltaYear,dAltaDay,dAltaMonth,0,0,0,0);
+                 if(dateAlta >= dateIni && dateAlta <= dateFi){
+                   $("#dateResult").append(department+" --> "+descripcion+" -> "+ dAlta+"<br>");
+                 }
+               }else{
+                 setTimeout(function(){
+                   cercaPerDates(from,to);
+                 },1000);
+               }
+             }
+           }
+
+           function addToTable(){
+             if(json != null){
+               $("tbody").html("");
+               for(var i = 0; i < json.length; i++){
+                 for(var o = 0; o < json[i].fitxatges.length;o++){
+                   $("tbody").append(
+                                       "<tr>"+
+                                       "<td>"+json[i].nom+"</td>"+
+                                       "<td>"+json[i].nom+"</td>"+
+                                       "<td>"+json[i].cognom+"</td>"+
+                                       "<td>"+json[i].fitxatges[o].hora+"</td>"+
+                                       "<td>"+json[i].fitxatges[o].tipus+"</td>"+
+                                       "</tr>"
+                                     );
+                 }
+               }
+               $("table").tableExport();
+             }else{
+               setTimeout(function(){
+                 addToTable();
+               },1000);
+             }
+           }
+
+           function addToSelect(){
+             if(json != null){
+               $("#professors").html("<option></option>");
+               for(var i = 0; i < json.length; i++){
+                 for(var o = 0; o < json[i].fitxatges.length;o++){
+                   $("#professors").append("<option value="+json[i].nom+">"+json[i].nom+"</option>");
+                 }
+               }
+               $("#professors").select2({placeholder: "Select teacher"});
+             }else{
+               setTimeout(function(){
+                 addToSelect();
+               },1000);
+             }
+           }
+         });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/3.3.5/js/tableexport.min.js">
+
+    </script>
+  </body>
+</html>

@@ -1,20 +1,17 @@
 @import url(http://fonts.googleapis.com/css?family=Montserrat);
 @import url(http://fonts.googleapis.com/css?family=Nothing+You+Could+Do);/* Google font */
-
-
+  
 body
 {
-  background-color:rgba(255, 203, 96,0.5);
+  background-color:#C23737;
 }
+
 #boxForm
 {
   background-color:white;
   width:340px;
-
-
   position:relative;
-  left:50vw;
-  margin-left:-170px;
+  margin: auto;
   box-shadow:1px 1px 8px black;
 }
 
@@ -96,8 +93,6 @@ form label
   padding:10px;
   width:150px;
   background: #C64545; /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a',GradientType=0 ); /* IE6-9 */
-
   font-family: 'Montserrat', sans-serif;
 
   font-size:15px;
